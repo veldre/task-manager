@@ -13,6 +13,6 @@ class Playground extends Command
 
     public function handle()
     {
-        dd(now()->addDay()->toISOString());
+
     }
 }
