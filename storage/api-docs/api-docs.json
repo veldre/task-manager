@@ -12,11 +12,20 @@
                     "Tasks"
                 ],
                 "summary": "List tasks",
-                "description": "Returns a list of all tasks",
                 "operationId": "296e87210478ac8ae0506ec18befa524",
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "List of tasks",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -70,7 +79,6 @@
                     {
                         "name": "task",
                         "in": "path",
-                        "description": "Task ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -79,7 +87,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Task found"
+                        "description": "Task found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Task not found"
@@ -137,7 +152,8 @@
                                         "type": "string"
                                     },
                                     "description": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "nullable": true
                                     }
                                 },
                                 "type": "object"
@@ -147,7 +163,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Task updated"
+                        "description": "Task updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Task not found"
@@ -156,6 +179,50 @@
                         "description": "Validation error"
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Task": {
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Buy milk"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "example": "high",
+                        "nullable": true
+                    },
+                    "due_at": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2026-01-20",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-01-20T10:15:30.000000Z",
+                        "nullable": true
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-01-20T10:15:30.000000Z",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
             }
         }
     },

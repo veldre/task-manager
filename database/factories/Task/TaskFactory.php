@@ -11,7 +11,10 @@ class TaskFactory extends Factory
         return [
             'title' => $this->faker->sentence(3),
             'priority' => $this->faker->randomElement(['low', 'medium', 'high']),
-            'due_at' => $this->faker->optional()->date(),
+            'due_at' => $this->faker
+                ->optional(0.5)
+                ->dateTimeBetween('now', '+6 months')
+                ?->format('Y-m-d'),
         ];
     }
 }

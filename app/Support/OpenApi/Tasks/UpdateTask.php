@@ -19,15 +19,18 @@ use OpenApi\Attributes as OA;
     requestBody: new OA\RequestBody(
         required: true,
         content: new OA\JsonContent(
-            type: "object",
             properties: [
                 new OA\Property(property: "title", type: "string"),
-                new OA\Property(property: "description", type: "string"),
+                new OA\Property(property: "description", type: "string", nullable: true),
             ]
         )
     ),
     responses: [
-        new OA\Response(response: 200, description: "Task updated"),
+        new OA\Response(
+            response: 200,
+            description: "Task updated",
+            content: new OA\JsonContent(ref: "#/components/schemas/Task")
+        ),
         new OA\Response(response: 404, description: "Task not found"),
         new OA\Response(response: 422, description: "Validation error"),
     ]

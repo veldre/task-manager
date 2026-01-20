@@ -13,12 +13,15 @@ use OpenApi\Attributes as OA;
             name: "task",
             in: "path",
             required: true,
-            description: "Task ID",
             schema: new OA\Schema(type: "integer")
         ),
     ],
     responses: [
-        new OA\Response(response: 200, description: "Task found"),
+        new OA\Response(
+            response: 200,
+            description: "Task found",
+            content: new OA\JsonContent(ref: "#/components/schemas/Task")
+        ),
         new OA\Response(response: 404, description: "Task not found"),
     ]
 )]

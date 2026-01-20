@@ -12,6 +12,11 @@ class ListTasksTest extends TestCase
 
     private const API_ENDPOINT = '/api/v1/tasks';
 
+    public function test_tasks_endpoint_requires_authentication(): void
+    {
+        $this->getJson('/api/v1/tasks')->assertStatus(401);
+    }
+
     public function test_it_can_list_tasks_with_pagination(): void
     {
         Task::factory()->count(3)->create();

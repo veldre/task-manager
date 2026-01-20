@@ -7,12 +7,15 @@ use OpenApi\Attributes as OA;
 #[OA\Get(
     path: "/api/v1/tasks",
     summary: "List tasks",
-    description: "Returns a list of all tasks",
     tags: ["Tasks"],
     responses: [
         new OA\Response(
             response: 200,
-            description: "Successful response"
+            description: "List of tasks",
+            content: new OA\JsonContent(
+                type: "array",
+                items: new OA\Items(ref: "#/components/schemas/Task")
+            )
         ),
     ]
 )]
