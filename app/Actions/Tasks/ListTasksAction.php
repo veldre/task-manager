@@ -2,17 +2,13 @@
 
 namespace App\Actions\Tasks;
 
-use App\Repositories\Tasks\Contracts\TaskRepositoryInterface;
+use App\Models\User\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ListTasksAction
 {
-    public function __construct(private TaskRepositoryInterface $tasks)
+    public function execute(User $user, int $perPage = 15): LengthAwarePaginator
     {
-    }
-
-    public function execute(int $perPage = 15): LengthAwarePaginator
-    {
-        return $this->tasks->paginate($perPage);
+        return $user->tasks()->latest()->paginate($perPage);
     }
 }
