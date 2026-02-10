@@ -15,7 +15,6 @@ class ShowTaskTest extends TestCase
 
     private const API_ENDPOINT = '/api/v1/tasks/';
 
-    
     protected function setUp(): void
     {
         parent::setUp();
@@ -32,12 +31,11 @@ class ShowTaskTest extends TestCase
         ], $overrides));
     }
 
-    
     public function test_user_can_view_own_task(): void
     {
         $task = $this->createUserTask();
 
-        $response = $this->getJson(self::API_ENDPOINT . $task->id);
+        $response = $this->getJson(self::API_ENDPOINT.$task->id);
 
         $response->assertOk();
         $response->assertJsonPath('data.id', $task->id);
@@ -53,14 +51,14 @@ class ShowTaskTest extends TestCase
             'user_id' => $otherUser->id,
         ]);
 
-        $response = $this->getJson(self::API_ENDPOINT . $task->id);
+        $response = $this->getJson(self::API_ENDPOINT.$task->id);
 
         $response->assertStatus(403);
     }
 
     public function test_it_returns_404_when_task_does_not_exist(): void
     {
-        $response = $this->getJson(self::API_ENDPOINT . 999999);
+        $response = $this->getJson(self::API_ENDPOINT. 999999);
 
         $response->assertStatus(404);
     }

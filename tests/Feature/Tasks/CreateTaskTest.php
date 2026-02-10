@@ -14,7 +14,6 @@ class CreateTaskTest extends TestCase
 
     private const API_ENDPOINT = '/api/v1/tasks';
 
-    
     protected function setUp(): void
     {
         parent::setUp();
@@ -46,7 +45,7 @@ class CreateTaskTest extends TestCase
             'user_id' => $this->user->id,
             'title' => $payload['title'],
             'priority' => $payload['priority'],
-            'due_at' => $payload['due_at'] . ' 00:00:00',
+            'due_at' => $payload['due_at'].' 00:00:00',
         ]);
     }
 }

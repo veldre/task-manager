@@ -2,10 +2,10 @@
 
 namespace App\Models\Task;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Task\Traits\TaskAttributes;
 use App\Models\Task\Traits\TaskRelationships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {

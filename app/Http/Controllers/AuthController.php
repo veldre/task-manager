@@ -23,7 +23,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request, LoginUserAction $loginUserAction): JsonResponse
     {
-        $token = $loginUserAction->execute( $request->email,$request->password);
+        $token = $loginUserAction->execute($request->email, $request->password);
 
         return response()->json([
             'token' => $token,

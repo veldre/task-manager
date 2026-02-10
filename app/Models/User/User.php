@@ -10,11 +10,10 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    use HasApiTokens;
     use UserRelationships;
-
 
     protected $guarded = [];
 
@@ -25,6 +24,6 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',  
+        'password' => 'hashed',
     ];
 }

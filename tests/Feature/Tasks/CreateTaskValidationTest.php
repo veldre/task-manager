@@ -13,7 +13,6 @@ class CreateTaskValidationTest extends TestCase
 
     private const API_ENDPOINT = '/api/v1/tasks';
 
-
     protected function setUp(): void
     {
         parent::setUp();

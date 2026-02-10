@@ -15,7 +15,6 @@ class DeleteTaskTest extends TestCase
 
     private const API_ENDPOINT = '/api/v1/tasks/';
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -32,12 +31,11 @@ class DeleteTaskTest extends TestCase
         ], $overrides));
     }
 
-    
     public function test_user_can_delete_own_task(): void
     {
         $task = $this->createUserTask();
 
-        $response = $this->deleteJson(self::API_ENDPOINT . $task->id);
+        $response = $this->deleteJson(self::API_ENDPOINT.$task->id);
 
         $response->assertNoContent();
 
@@ -54,7 +52,7 @@ class DeleteTaskTest extends TestCase
             'user_id' => $otherUser->id,
         ]);
 
-        $response = $this->deleteJson(self::API_ENDPOINT . $task->id);
+        $response = $this->deleteJson(self::API_ENDPOINT.$task->id);
 
         $response->assertStatus(403);
 
@@ -65,7 +63,7 @@ class DeleteTaskTest extends TestCase
 
     public function test_it_returns_404_when_task_does_not_exist(): void
     {
-        $response = $this->deleteJson(self::API_ENDPOINT . 999999);
+        $response = $this->deleteJson(self::API_ENDPOINT. 999999);
 
         $response->assertNotFound();
     }
@@ -74,7 +72,7 @@ class DeleteTaskTest extends TestCase
     {
         $task = $this->createUserTask();
 
-        $this->deleteJson(self::API_ENDPOINT . $task->id)->assertNoContent();
-        $this->deleteJson(self::API_ENDPOINT . $task->id)->assertNotFound();
+        $this->deleteJson(self::API_ENDPOINT.$task->id)->assertNoContent();
+        $this->deleteJson(self::API_ENDPOINT.$task->id)->assertNotFound();
     }
 }

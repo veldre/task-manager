@@ -12,7 +12,6 @@ class SanctumAccessTest extends TestCase
 
     private const API_ENDPOINT = '/api/v1/tasks';
 
-
     public function test_protected_route_requires_sanctum_token(): void
     {
         $this->getJson(self::API_ENDPOINT)
@@ -26,7 +25,7 @@ class SanctumAccessTest extends TestCase
         $token = $user->createToken('test-token')->plainTextToken;
 
         $this
-            ->withHeader('Authorization', 'Bearer ' . $token)
+            ->withHeader('Authorization', 'Bearer '.$token)
             ->getJson(self::API_ENDPOINT)
             ->assertOk();
     }

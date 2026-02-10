@@ -15,7 +15,6 @@ class ListTasksTest extends TestCase
 
     private const API_ENDPOINT = '/api/v1/tasks';
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -29,14 +28,13 @@ class ListTasksTest extends TestCase
     {
         $this->actingAs($this->user, 'sanctum');
     }
-    
+
     private function createUserTask(array $overrides = []): Task
     {
         return Task::factory()->create(array_merge([
             'user_id' => $this->user->id,
         ], $overrides));
     }
-
 
     public function test_tasks_endpoint_requires_authentication(): void
     {

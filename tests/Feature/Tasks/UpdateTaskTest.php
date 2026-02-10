@@ -15,7 +15,6 @@ class UpdateTaskTest extends TestCase
 
     protected User $user;
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -32,7 +31,6 @@ class UpdateTaskTest extends TestCase
         ], $overrides));
     }
 
-
     public function test_it_can_update_task_priority_only(): void
     {
         $task = $this->createUserTask([
@@ -41,7 +39,7 @@ class UpdateTaskTest extends TestCase
             'due_at' => '2026-02-20',
         ]);
 
-        $response = $this->patchJson(self::API_ENDPOINT . $task->id, [
+        $response = $this->patchJson(self::API_ENDPOINT.$task->id, [
             'priority' => 'high',
         ]);
 
@@ -61,7 +59,7 @@ class UpdateTaskTest extends TestCase
     {
         $task = $this->createUserTask();
 
-        $response = $this->patchJson(self::API_ENDPOINT . $task->id, [
+        $response = $this->patchJson(self::API_ENDPOINT.$task->id, [
             'priority' => 'urgent',
         ]);
 
@@ -73,7 +71,7 @@ class UpdateTaskTest extends TestCase
     {
         $task = $this->createUserTask();
 
-        $response = $this->patchJson(self::API_ENDPOINT . $task->id, []);
+        $response = $this->patchJson(self::API_ENDPOINT.$task->id, []);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['payload']);
@@ -85,7 +83,7 @@ class UpdateTaskTest extends TestCase
             'due_at' => '2026-02-20',
         ]);
 
-        $response = $this->patchJson(self::API_ENDPOINT . $task->id, [
+        $response = $this->patchJson(self::API_ENDPOINT.$task->id, [
             'due_at' => null,
         ]);
 
@@ -104,7 +102,7 @@ class UpdateTaskTest extends TestCase
             'title' => 'Old',
         ]);
 
-        $response = $this->patchJson(self::API_ENDPOINT . $task->id, [
+        $response = $this->patchJson(self::API_ENDPOINT.$task->id, [
             'title' => '  New title  ',
         ]);
 
@@ -123,8 +121,8 @@ class UpdateTaskTest extends TestCase
             'title' => 'Old title',
             'priority' => 'low',
         ]);
-        
-        $response = $this->patchJson(self::API_ENDPOINT . $task->id, [
+
+        $response = $this->patchJson(self::API_ENDPOINT.$task->id, [
             'title' => 'New title',
         ]);
 
@@ -144,7 +142,7 @@ class UpdateTaskTest extends TestCase
             'due_at' => null,
         ]);
 
-        $response = $this->patchJson(self::API_ENDPOINT . $task->id, [
+        $response = $this->patchJson(self::API_ENDPOINT.$task->id, [
             'due_at' => '2026-03-01',
         ]);
 
@@ -159,8 +157,8 @@ class UpdateTaskTest extends TestCase
     public function test_it_validates_due_at_on_update(): void
     {
         $task = $this->createUserTask();
-       
-        $response = $this->patchJson(self::API_ENDPOINT . $task->id, [
+
+        $response = $this->patchJson(self::API_ENDPOINT.$task->id, [
             'due_at' => 'not-a-date',
         ]);
 
@@ -170,7 +168,7 @@ class UpdateTaskTest extends TestCase
 
     public function test_it_returns_404_when_task_does_not_exist(): void
     {
-        $response = $this->patchJson(self::API_ENDPOINT . 999999, [
+        $response = $this->patchJson(self::API_ENDPOINT. 999999, [
             'title' => 'Does not matter',
         ]);
 
@@ -185,7 +183,7 @@ class UpdateTaskTest extends TestCase
             'user_id' => $otherUser->id,
         ]);
 
-        $response = $this->patchJson(self::API_ENDPOINT . $task->id, [
+        $response = $this->patchJson(self::API_ENDPOINT.$task->id, [
             'title' => 'Changed title',
         ]);
 
