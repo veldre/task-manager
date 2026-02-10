@@ -22,5 +22,5 @@ jobs:
       - run: cp .env.example .env
       - run: php artisan key:generate
 
-      - run: php artisan pint --test
+      - run: vendor/bin/pint --test
       - run: php artisan test
