@@ -1,3 +1,7 @@
+[![CI](https://github.com/veldre/task-manager/actions/workflows/ci.yml/badge.svg)](
+https://github.com/veldre/task-manager/actions/workflows/ci.yml
+)
+
 # Task Manager API — OOP & SOLID Practice Project
 
 This project is a **backend-only Task Manager API** built in Laravel, created specifically to practice and demonstrate **OOP principles**, **SOLID design**, and **testable architecture**.
