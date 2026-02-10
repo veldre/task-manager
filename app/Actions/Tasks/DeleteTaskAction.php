@@ -7,9 +7,7 @@ use App\Repositories\Tasks\Contracts\TaskRepositoryInterface;
 
 class DeleteTaskAction
 {
-    public function __construct(private TaskRepositoryInterface $tasks)
-    {
-    }
+    public function __construct(private TaskRepositoryInterface $tasks) {}
 
     public function execute(Task $task): void
     {

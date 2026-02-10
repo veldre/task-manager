@@ -8,9 +8,7 @@ use App\Repositories\Tasks\Contracts\TaskRepositoryInterface;
 
 class UpdateTaskAction
 {
-    public function __construct(private TaskRepositoryInterface $tasks)
-    {
-    }
+    public function __construct(private TaskRepositoryInterface $tasks) {}
 
     public function execute(Task $task, UpdateTaskDTO $dto): Task
     {

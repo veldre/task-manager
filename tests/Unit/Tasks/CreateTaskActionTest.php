@@ -13,20 +13,29 @@ class CreateTaskActionTest extends TestCase
 {
     public function test_it_creates_task_using_repository(): void
     {
+        $userId = 1;
+
         $data = [
+            'user_id' => $userId,
             'title' => 'Buy milk',
             'priority' => 'high',
             'due_at' => '2026-01-08',
         ];
 
-        $dto = CreateTaskDTO::fromArray($data);
+        $dto = CreateTaskDTO::fromArray($data, $userId);
 
         $task = Task::make($data);
 
         $repo = Mockery::mock(TaskRepositoryInterface::class);
+
         $repo->shouldReceive('create')
             ->once()
-            ->with($dto->toArray())
+            ->with([
+                'user_id' => $userId,
+                'title' => 'Buy milk',
+                'priority' => 'high',
+                'due_at' => '2026-01-08',
+            ])
             ->andReturn($task);
 
         $action = new CreateTaskAction($repo);
@@ -34,6 +43,7 @@ class CreateTaskActionTest extends TestCase
         $result = $action->execute($dto);
 
         $this->assertInstanceOf(Task::class, $result);
+        $this->assertSame($userId, $result->user_id);
         $this->assertSame('Buy milk', $result->title);
         $this->assertSame('high', $result->priority);
     }

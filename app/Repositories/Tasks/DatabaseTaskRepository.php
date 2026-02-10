@@ -24,7 +24,7 @@ class DatabaseTaskRepository implements TaskRepositoryInterface
     {
         $task->delete();
     }
-   
+
     public function paginate(int $perPage = 15): LengthAwarePaginator
     {
         return Task::latest('id')->paginate($perPage);
