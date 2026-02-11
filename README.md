@@ -1,131 +1,231 @@
-[![CI](https://github.com/veldre/task-manager/actions/workflows/ci.yml/badge.svg)](
-https://github.com/veldre/task-manager/actions/workflows/ci.yml
-)
+[![CI](https://github.com/veldre/task-manager/actions/workflows/ci.yml/badge.svg)](https://github.com/veldre/task-manager/actions/workflows/ci.yml)
 
 # Task Manager API — OOP & SOLID Practice Project
 
-This project is a **backend-only Task Manager API** built in Laravel, created specifically to practice and demonstrate **OOP principles**, **SOLID design**, and **testable architecture**.
+A backend-only REST API built with Laravel 12 to demonstrate:
 
-The project is intentionally **work-in-progress**.  
-The goal is not feature completeness, but **clean structure, clear responsibilities, and extensibility**.
+- Object-Oriented Programming (OOP)
+- SOLID principles
+- Clean architecture
+- Test-driven development
+- Token-based authentication
+- Policy-based authorization
+- Swagger/OpenAPI documentation
+- CI-enforced quality control
+
+This project focuses on architectural quality and maintainability rather than feature quantity.
 
 ---
 
 ## Tech Stack
 
-- **PHP:** 8.x
-- **Framework:** Laravel 12
-- **API Style:** REST
-- **Database:** MySQL  
-- **Testing Database:** SQLite (in-memory)
-- **Testing:** PHPUnit (Feature + Unit tests)
-- **Authentication:** Not yet implemented (planned: Laravel Sanctum)
+- PHP 8.x
+- Laravel 12
+- MySQL
+- SQLite (in-memory for testing)
+- Laravel Sanctum (API authentication)
+- PHPUnit (Feature + Unit tests)
+- Laravel Pint (code style)
+- L5-Swagger (OpenAPI documentation)
+- GitHub Actions (CI)
 
 ---
 
-## Architectural Goals
+## Architectural Philosophy
 
-This project is built with the following goals in mind:
+The project enforces:
 
-- Explicit separation of concerns
-- Business logic outside controllers
-- High testability
-- The code starts simple and grows in complexity only when there is a real need
+- Thin controllers
+- Business logic outside the HTTP layer
+- Explicit data contracts (DTOs)
+- Repository abstraction
+- Dependency Inversion Principle
+- Policy-based authorization
+- CI-required test passing before merge
 
----
-
-## Current Structure
-
-### Controllers
-Located in `app/Http/Controllers`
-
-Controllers are intentionally **thin**:
-- Request validation is handled by Form Requests
-- Business logic is delegated to Actions
-- Controllers only coordinate input/output
+The code grows in complexity only when architecturally justified.
 
 ---
 
-### Actions
-Located in `app/Actions`
+## Project Structure
 
-Actions encapsulate **single use cases**, for example:
-- Creating a task
-- Updating task status
+### Controllers (`app/Http/Controllers`)
 
-They:
+Controllers:
+
+- Handle HTTP only
+- Delegate validation to Form Requests
+- Delegate business logic to Actions
+- Return API Resources
+- Contain no domain logic
+
+---
+
+### Actions (`app/Actions`)
+
+Each Action represents a single use case:
+
+- CreateTaskAction
+- UpdateTaskAction
+- DeleteTaskAction
+- ListTasksAction
+- RegisterUserAction
+- LoginUserAction
+
+Actions:
+
 - Accept DTOs
-- Contain no HTTP-specific logic
-- Are easy to unit test
+- Do not depend on HTTP
+- Depend on abstractions
+- Are unit-testable in isolation
 
 ---
 
-### DTOs (Data Transfer Objects)
-Located in `app/Actions/Tasks/DTO`
+### DTOs (`app/Actions/**/DTO`)
 
-DTOs are used to:
-- Explicitly define input data
-- Avoid passing raw arrays between layers
-- Make method contracts clear
+DTOs:
 
----
-
-### Repository Layer
-Located in `app/Repositories`
-
-- `TaskRepositoryInterface` defines the contract
-- `DatabaseTaskRepository` is the current implementation
-- Bound via a Service Provider
-
-This allows:
-- Swapping persistence layers
-- Testing Actions without a database
-- Following the Dependency Inversion Principle
+- Define explicit input contracts
+- Replace raw arrays between layers
+- Improve clarity and maintainability
+- Make refactoring safer
 
 ---
 
-### Models
-Located in `app/Models`
+### Repository Layer (`app/Repositories`)
 
-Models are kept **lean** and primarily represent persistence.
-Business rules live in Actions and domain logic, not in controllers.
+- TaskRepositoryInterface
+- DatabaseTaskRepository
+
+Bound via a Service Provider.
+
+Benefits:
+
+- Swappable persistence layer
+- Easy mocking for unit tests
+- Proper Dependency Inversion
 
 ---
 
-### Testing Strategy
+### Models (`app/Models`)
 
-- **Feature tests** for API endpoints
-- **Unit tests** for Actions using mocked repositories
-- SQLite in-memory database for fast, isolated automated tests
-- Model factories for generating test data
-- Database seeders for local development and testing
+Models represent persistence only.
+
+Business rules live inside Actions and policies.
+
+---
+
+## Authentication (Laravel Sanctum)
+
+Implemented:
+
+- User registration
+- User login
+- Token generation
+- Logout (token invalidation)
+- Authenticated `/me` endpoint
+- All task routes protected by `auth:sanctum`
+
+Token-based authentication using Bearer tokens.
+
+---
+
+## Authorization
+
+Task access is enforced via:
+
+- TaskPolicy
+- Ownership check using `user_id`
+- Users can only view, update, or delete their own tasks
+
+---
+
+## API Documentation (Swagger / OpenAPI)
+
+Interactive API documentation is available via Swagger:
+
+```
+/api/documentation
+```
+
+Example (local environment):
+
+```
+http://task-manager.test/api/documentation#/Tasks
+```
+
+Documentation includes:
+
+- Auth endpoints
+- Task endpoints
+- Request/response schemas
+- Example payloads
+- Authentication requirements
+
+OpenAPI annotations are maintained alongside the codebase.
 
 ---
 
 ## Implemented Features
 
-- Create task endpoint
-- Update task endpoint
-- Delete task endpoint
-- Task listing with pagination
-- Request validation via Form Requests
-- Task creation via Action + DTO
+### Authentication
+
+- Register
+- Login
+- Logout
+- Get current user
+- Token-based API access
+
+### Tasks
+
+- Create task
+- Update task (partial updates)
+- Delete task
+- Show single task
+- List tasks (paginated)
+- Ownership enforcement
+- Validation via Form Requests
+- API Resource formatting
+
+### Architecture
+
+- Action pattern
+- DTO pattern
 - Repository abstraction
-- Unit test for Action (no database)
-- Feature tests for API endpoints
+- Policy authorization
+- Dependency injection
+- Service Provider bindings
+
+### Quality
+
+- Feature tests for endpoints
+- Unit tests for Actions (mocked repositories)
+- SQLite in-memory test database
+- Laravel Pint lint enforcement
+- Swagger documentation
+- GitHub Actions CI
+- Protected main branch requiring passing checks
 
 ---
 
-## TODO / Planned Improvements
+## API Endpoints
 
-- Authentication and authorization (Laravel Sanctum)
-- User registration and login
-- Token-based API access
-- Task ownership and access control
-- Policies for task actions
-- Task completion / status transitions
-- OpenAPI / Swagger documentation
-- Additional unit tests for edge cases
+### Auth
+
+POST   /api/v1/auth/register  
+POST   /api/v1/auth/login  
+POST   /api/v1/auth/logout  
+GET    /api/v1/auth/me  
+
+### Tasks (Authenticated)
+
+GET     /api/v1/tasks  
+POST    /api/v1/tasks  
+GET     /api/v1/tasks/{task}  
+PATCH   /api/v1/tasks/{task}  
+DELETE  /api/v1/tasks/{task}  
+
+All task routes require a Bearer token.
 
 ---
 
@@ -142,12 +242,61 @@ php artisan key:generate
 
 php artisan migrate
 php artisan serve
+```
 
-### Running Tests
+Swagger will be available at:
 
-The test suite uses an in-memory SQLite database for fast and isolated execution.
+```
+http://localhost:8000/api/documentation
+```
 
-Run all tests with:
+---
+
+## Running Tests
 
 ```bash
 php artisan test
+```
+
+Lint check:
+
+```bash
+./vendor/bin/pint --test
+```
+
+---
+
+## Continuous Integration
+
+Every push and pull request runs:
+
+1. Composer install
+2. Pint lint check
+3. Full test suite
+
+The `main` branch is protected and requires passing checks before merging.
+
+---
+
+## TODO / Future Improvements
+
+- Task completion state
+- Task filtering and sorting
+- Rate limiting
+- API versioning strategy
+- Role-based authorization
+- Caching exploration
+- Dockerized environment
+- Event-driven architecture exploration
+
+---
+
+## Purpose
+
+This project exists to:
+
+- Practice clean architecture in Laravel
+- Demonstrate SOLID principles in real code
+- Showcase testable design
+- Provide a portfolio-ready backend example
+- Show CI discipline and documentation standards
