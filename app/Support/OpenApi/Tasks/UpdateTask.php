@@ -20,9 +20,11 @@ use OpenApi\Attributes as OA;
     requestBody: new OA\RequestBody(
         required: true,
         content: new OA\JsonContent(
+            type: 'object',
             properties: [
                 new OA\Property(property: 'title', type: 'string'),
-                new OA\Property(property: 'description', type: 'string', nullable: true),
+                new OA\Property(property: 'priority', type: 'string', enum: ['low', 'medium', 'high']),
+                new OA\Property(property: 'due_at', type: 'string', format: 'date', nullable: true),
             ]
         )
     ),

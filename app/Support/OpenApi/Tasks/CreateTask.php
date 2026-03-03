@@ -39,7 +39,13 @@ use OpenApi\Attributes as OA;
         )
     ),
     responses: [
-        new OA\Response(response: 201, description: 'Task created'),
+        new OA\Response(
+            response: 201,
+            description: 'Task created',
+            content: new OA\JsonContent(
+                ref: '#/components/schemas/Task'
+            )
+        ),
         new OA\Response(response: 422, description: 'Validation error'),
         new OA\Response(response: 401, description: 'Unauthenticated'),
     ]
