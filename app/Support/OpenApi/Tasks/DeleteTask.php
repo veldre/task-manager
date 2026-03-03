@@ -6,6 +6,7 @@ use OpenApi\Attributes as OA;
 
 #[OA\Delete(
     path: '/api/v1/tasks/{task}',
+    security: [['sanctum' => []]],
     summary: 'Delete a task',
     tags: ['Tasks'],
     parameters: [
@@ -21,4 +22,6 @@ use OpenApi\Attributes as OA;
         new OA\Response(response: 404, description: 'Task not found'),
     ]
 )]
-final class DeleteTask {}
+final class DeleteTask
+{
+}

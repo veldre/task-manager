@@ -6,6 +6,7 @@ use OpenApi\Attributes as OA;
 
 #[OA\Patch(
     path: '/api/v1/tasks/{task}',
+    security: [['sanctum' => []]],
     summary: 'Update a task',
     tags: ['Tasks'],
     parameters: [
@@ -35,4 +36,6 @@ use OpenApi\Attributes as OA;
         new OA\Response(response: 422, description: 'Validation error'),
     ]
 )]
-final class UpdateTask {}
+final class UpdateTask
+{
+}

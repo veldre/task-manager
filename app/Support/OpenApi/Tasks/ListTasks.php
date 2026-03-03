@@ -6,6 +6,7 @@ use OpenApi\Attributes as OA;
 
 #[OA\Get(
     path: '/api/v1/tasks',
+    security: [['sanctum' => []]],
     summary: 'List tasks',
     tags: ['Tasks'],
     responses: [
@@ -19,4 +20,6 @@ use OpenApi\Attributes as OA;
         ),
     ]
 )]
-final class ListTasks {}
+final class ListTasks
+{
+}
